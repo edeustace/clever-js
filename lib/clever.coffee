@@ -210,8 +210,23 @@ class Section extends Resource
 class Student extends Resource
   @path: '/v1.1/students'
 
+class Credentials
+
+  constructor: () ->
+      
+  load: (id, cb) ->
+    opts =
+      method: 'get'
+      uri: "#{clever.url_base}/v1.1/teachers/#{id}/credentials"
+      headers: { Authorization: "Basic #{new Buffer(clever.api_key).toString('base64')}" }
+      json: true
+    quest opts, (err, response, body) ->
+      cb err, body
+  
+
 class Teacher extends Resource
   @path: '/v1.1/teachers'
+  @Credentials = new Credentials
 
 class Event extends Resource
   @path: '/v1.1/push/events'
